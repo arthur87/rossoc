@@ -15,23 +15,21 @@ module Rossoc
     def parser(sql)
       # sql = 'select din11 from board where din1=1 and 2=din2 or din3 >2'
 
-      begin
-        parser = SQLParser::Parser.new
-        ast = parser.scan_str(sql)
+      parser = SQLParser::Parser.new
+      ast = parser.scan_str(sql)
 
-        @sql = ast.to_sql
-        @columns = ast.query_expression.list.columns
-        @tables = ast.query_expression.table_expression.from_clause.tables
+      @sql = ast.to_sql
+      @columns = ast.query_expression.list.columns
+      @tables = ast.query_expression.table_expression.from_clause.tables
 
-        @condition = if ast.query_expression.table_expression.where_clause.nil?
-                       nil
-                     else
-                       ast.query_expression.table_expression.where_clause.search_condition
-                     end
-      rescue StandardError => e
-        warn "Syntax error: #{e}"
-        exit(1)
-      end
+      @condition = if ast.query_expression.table_expression.where_clause.nil?
+                     nil
+                   else
+                     ast.query_expression.table_expression.where_clause.search_condition
+                   end
+    rescue StandardError => e
+      warn "Syntax error: #{e}"
+      exit(1)
     end
 
     def generator

@@ -1,6 +1,6 @@
 # rossoc
 
-Convert sql to mruby mruby/c Common I/O API
+Convert sql to mruby and mruby/c Common I/O API
 
 # Guide
 
