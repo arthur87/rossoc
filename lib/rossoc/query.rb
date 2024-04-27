@@ -2,6 +2,7 @@
 
 require 'rossoc'
 
+# Rossoc
 module Rossoc
   # query
   class Query
@@ -10,64 +11,99 @@ module Rossoc
       din11 din12 din13 din14 din15 din16 din17 din18 din19 din20
     ].freeze
 
-    def initialize; end
+    def initialize(input, output)
+      @input = input
+      @output = output
+      @all_pins = Set.new
+      @out_pins = Set.new
+    end
+
+    def execute
+      parser(@input)
+      check_columns
+      check_tables
+      check_condition
+      content = generator(@all_pins, @out_pins, @where, @ast.to_sql)
+      file_writer(content, @output)
+    end
+
+    private
 
     def parser(sql)
-      # sql = 'select din11 from board where din1=1 and 2=din2 or din3 >2'
-
       parser = SQLParser::Parser.new
-      ast = parser.scan_str(sql)
-
-      @sql = ast.to_sql
-      @columns = ast.query_expression.list.columns
-      @tables = ast.query_expression.table_expression.from_clause.tables
-
-      @condition = if ast.query_expression.table_expression.where_clause.nil?
-                     nil
-                   else
-                     ast.query_expression.table_expression.where_clause.search_condition
-                   end
+      @ast = parser.scan_str(sql)
     rescue StandardError => e
       warn "Syntax error: #{e}"
       exit(1)
     end
 
-    def generator
-      @all_pins = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-      @out_pins = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-
-      @columns.each do |column|
+    def check_columns
+      columns = @ast.query_expression.list.columns
+      columns.each do |column|
         name = column.name
         index = FIELDS.index(name)
         if index.nil?
           warn "Unknown column: #{name}"
           exit(1)
         else
-          @all_pins[index] = 1
-          @out_pins[index] = 1
+          @all_pins.add(index)
+          @out_pins.add(index)
         end
       end
+    rescue StandardError => e
+      warn "Syntax error: #{e}"
+      exit(1)
+    end
 
-      @tables.each do |table|
+    def check_tables
+      tables = @ast.query_expression.table_expression.from_clause.tables
+      tables.each do |table|
         name = table.name
         if name != 'board'
           warn "Unknown table: #{name}"
           exit(1)
         end
       end
-
-      if @condition.nil?
-        @where = 1
-      else
-        tree_trace(@condition)
-        @where = rewrite_condition(@condition.to_sql)
-      end
-
-      template = ERB.new(File.read("#{__dir__}#{File::SEPARATOR}ruby.erb"))
-      puts template.result_with_hash({ all_pins: @all_pins, out_pins: @out_pins, where: @where, sql: @sql })
+    rescue StandardError => e
+      warn "Syntax error: #{e}"
+      exit(1)
     end
 
-    private
+    def check_condition
+      begin
+        condition = if @ast.query_expression.table_expression.where_clause.nil?
+                      nil
+                    else
+                      @ast.query_expression.table_expression.where_clause.search_condition
+                    end
+      rescue StandardError => e
+        warn "Syntax error: #{e}"
+        exit(1)
+      end
+
+      if !condition.nil?
+        tree_trace(condition)
+
+        tokens = condition.to_sql.split(' ')
+        tokens.each_with_index do |token, index|
+          case token
+          when '='
+            token = '=='
+          when 'AND'
+            token = '&&'
+          when 'OR'
+            token = '||'
+          when '<>'
+            token = '!='
+          end
+          tokens[index] = token.gsub('`', '')
+        end
+
+        @where = tokens.join(' ')
+      else
+        @where = 1
+      end
+    end
 
     def tree_trace(condition)
       root_words = ['SQLParser::Statement::Equals',
@@ -78,7 +114,8 @@ module Rossoc
                     'SQLParser::Statement::And',
                     'SQLParser::Statement::Or']
       not_words = ['SQLParser::Statement::Not']
-      value_words = ['SQLParser::Statement::Float', 'SQLParser::Statement::Integer']
+      value_words = ['SQLParser::Statement::Float',
+                     'SQLParser::Statement::Integer']
       column_words = ['SQLParser::Statement::Column']
 
       if root_words.include?(condition.class.to_s)
@@ -94,7 +131,7 @@ module Rossoc
           warn "Unknown column: #{name}"
           exit(1)
         else
-          @all_pins[index] = 1
+          @all_pins.add(index)
         end
       elsif value_words.include?(condition.class.to_s)
         # none
@@ -104,23 +141,19 @@ module Rossoc
       end
     end
 
-    def rewrite_condition(condition)
-      tokens = condition.split(' ')
-      tokens.each_with_index do |token, index|
-        case token
-        when '='
-          token = '=='
-        when 'AND'
-          token = '&&'
-        when 'OR'
-          token = '||'
-        when '<>'
-          token = '!='
-        end
-        tokens[index] = token.gsub('`', '')
-      end
+    def generator(all_pins, out_pins, where, sql)
+      template = ERB.new(File.read("#{__dir__}#{File::SEPARATOR}ruby.erb"))
+      template.result_with_hash({ all_pins: all_pins, out_pins: out_pins, where: where, sql: sql })
+    end
 
-      tokens.join(' ')
+    def file_writer(content, output)
+      if output.blank?
+        warn 'No output file'
+        exit(1)
+      end
+      file = File.open(output, 'w')
+      file.write(content)
+      file.close
     end
   end
 end

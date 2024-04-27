@@ -1,9 +1,7 @@
 # <%= sql %>
 <%
-all_pins.each_with_index do |pin, index|
-  if pin == 1 %>
-GPIO.setmode(<%= index %>, GPIO::IN) <% 
-  end
+all_pins.each do |pin| %>
+GPIO.setmode(<%= pin %>, GPIO::IN)<% 
 end
 %>
 
@@ -11,18 +9,14 @@ uart1 = UART.new(1)
 
 while 1 do
 <%
-all_pins.each_with_index do |pin, index|
-  if pin == 1 %>
-  din<%= index %> = GPIO.read(<%= index %>) <%
-  end
+all_pins.each do |pin| %>
+  din<%= pin %> = GPIO.read(<%= pin %>)<%
 end
 %>
 
   if <%= where %><%
-out_pins.each_with_index do |pin, index|
-  if pin == 1 %>
-    uart1.write("#{din<%= index %>}\r\n") <%
-  end
+out_pins.each do |pin| %>
+    uart1.write("#{din<%= pin %>}\r\n")<%
 end
 %>
   end

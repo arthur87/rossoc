@@ -19,10 +19,10 @@ module Rossoc
 
     desc 'query', 'Query'
     method_option :input, desc: 'Input', aliases: '-i'
+    method_option :output, desc: 'Output', aliases: '-o'
     def query
-      client = Rossoc::Query.new
-      client.parser(options[:input].to_s)
-      client.generator
+      client = Rossoc::Query.new(options[:input].to_s, options[:output].to_s)
+      client.execute
     end
   end
 end

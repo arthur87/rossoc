@@ -38,6 +38,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sql-parser'
   spec.add_dependency 'thor'
 
+  spec.add_development_dependency 'rubocop'
+
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 end
