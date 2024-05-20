@@ -20,4 +20,8 @@ out_pins.each do |pin| %>
 end
 %>
   end
+
+  <% if sleep_sec > 0 %>
+  sleep(<%= sleep_sec %>)
+  <% end%>
 end

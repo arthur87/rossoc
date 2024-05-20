@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rossoc (0.1.0)
+    rossoc (0.2.0)
       activesupport
       erb
       sql-parser
