@@ -144,7 +144,8 @@ module Rossoc
 
     def generator(all_pins, out_pins, where, sql, sleep_sec)
       template = ERB.new(File.read("#{__dir__}#{File::SEPARATOR}ruby.erb"))
-      template.result_with_hash({ all_pins: all_pins, out_pins: out_pins, where: where, sql: sql, sleep_sec: sleep_sec })
+      template.result_with_hash({ all_pins: all_pins, out_pins: out_pins, where: where, sql: sql,
+                                  sleep_sec: sleep_sec })
     end
 
     def file_writer(content, output)
