@@ -1,1 +1,8 @@
-inherit_from: .rubocop_todo.yml
+AllCops:
+  Exclude:
+    - "lib/rossoc/parser.racc"
+    - "lib/rossoc/parser.racc.rb"
+    - "lib/rossoc/parser.rex"
+    - "lib/rossoc/parser.rex.rb"
+    - "lib/rossoc/sql_visitor.rb"
+    - "lib/rossoc/statement.rb"

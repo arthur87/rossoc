@@ -35,9 +35,9 @@ Gem::Specification.new do |spec|
   # Uncomment to register a new dependency of your gem
   spec.add_dependency 'activesupport'
   spec.add_dependency 'erb'
-  spec.add_dependency 'sql-parser'
   spec.add_dependency 'thor'
-
+  spec.add_runtime_dependency 'racc'
+  spec.add_development_dependency 'rexical'
   spec.add_development_dependency 'rubocop'
 
   # For more information and examples about making a new gem, check out our

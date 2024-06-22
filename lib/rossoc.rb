@@ -1,11 +1,18 @@
 # frozen_string_literal: true
 
 require_relative 'rossoc/version'
+require 'strscan'
+require 'date'
+require 'racc/parser'
+require_relative 'rossoc/statement'
+require_relative 'rossoc/sql_visitor'
+require_relative 'rossoc/parser.racc'
 require 'rossoc/cli'
-require 'rossoc/query'
+require 'rossoc/frontend'
+require 'rossoc/backend'
+require 'rossoc/ir'
 require 'active_support/all'
 require 'erb'
-require 'sql-parser'
 require 'set'
 
 module Rossoc

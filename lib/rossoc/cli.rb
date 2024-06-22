@@ -20,10 +20,10 @@ module Rossoc
     desc 'query', 'Query'
     method_option :input, desc: 'Input', aliases: '-i'
     method_option :output, desc: 'Output', aliases: '-o'
-    method_option :sleep, desc: 'Sleep'
     def query
-      client = Rossoc::Query.new(options[:input].to_s, options[:output].to_s, options[:sleep].to_i)
-      client.execute
+      frontend = Rossoc::Frontend.new(options[:input].to_s)
+      backend = Rossoc::Backend.new(frontend.execute, options[:output].to_s)
+      backend.execute
     end
   end
 end

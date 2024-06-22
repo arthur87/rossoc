@@ -4,17 +4,15 @@ require 'rossoc'
 
 # Rossoc
 module Rossoc
-  # query
-  class Query
+  # Frontend
+  class Frontend
     FIELDS = %w[
       din0 din1 din2 din3 din4 din5 din6 din7 din8 din9 din10
       din11 din12 din13 din14 din15 din16 din17 din18 din19 din20
     ].freeze
 
-    def initialize(input, output, sleep_sec)
+    def initialize(input)
       @input = input
-      @output = output
-      @sleep_sec = sleep_sec
       @all_pins = Set.new
       @out_pins = Set.new
     end
@@ -24,8 +22,8 @@ module Rossoc
       check_columns
       check_tables
       check_condition
-      content = generator(@all_pins, @out_pins, @where, @ast.to_sql, @sleep_sec)
-      file_writer(content, @output)
+
+      Rossoc::Ir.new(@all_pins, @out_pins, @where, @ast.to_sql, 0)
     end
 
     private
@@ -140,22 +138,6 @@ module Rossoc
         warn "Unknown token: #{condition}"
         exit(1)
       end
-    end
-
-    def generator(all_pins, out_pins, where, sql, sleep_sec)
-      template = ERB.new(File.read("#{__dir__}#{File::SEPARATOR}ruby.erb"))
-      template.result_with_hash({ all_pins: all_pins, out_pins: out_pins, where: where, sql: sql,
-                                  sleep_sec: sleep_sec })
-    end
-
-    def file_writer(content, output)
-      if output.blank?
-        warn 'No output file'
-        exit(1)
-      end
-      file = File.open(output, 'w')
-      file.write(content)
-      file.close
     end
   end
 end
