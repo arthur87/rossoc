@@ -74,6 +74,7 @@ rule
             DESC          { [:DESC, text] }
             CURRENT_USER  { [:CURRENT_USER, text] }
             VALUES        { [:VALUES, text] }
+            RSLEEP         { [:RSLEEP, text] }
 
 # tokens
             E             { [:E, text] }

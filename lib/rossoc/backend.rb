@@ -13,8 +13,7 @@ module Rossoc
 
     def execute
       template = ERB.new(File.read("#{__dir__}#{File::SEPARATOR}views#{File::SEPARATOR}ruby.erb"))
-      content = template.result_with_hash({ all_pins: @ir.all_pins, out_pins: @ir.out_pins, where: @ir.where,
-                                            sleep_sec: @ir.sleep_sec })
+      content = template.result_with_hash(@ir.result)
 
       if @output.blank?
         warn 'No output file'

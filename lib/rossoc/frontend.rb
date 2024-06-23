@@ -15,6 +15,7 @@ module Rossoc
       @input = input
       @all_pins = Set.new
       @out_pins = Set.new
+      @sleep_sec = 0
     end
 
     def execute
@@ -22,8 +23,9 @@ module Rossoc
       check_columns
       check_tables
       check_condition
+      check_rsleep
 
-      Rossoc::Ir.new(@all_pins, @out_pins, @where, @ast.to_sql, 0)
+      Rossoc::Ir.new(@all_pins, @out_pins, @where, @ast.to_sql, @sleep_sec)
     end
 
     private
@@ -138,6 +140,12 @@ module Rossoc
         warn "Unknown token: #{condition}"
         exit(1)
       end
+    end
+
+    def check_rsleep
+      return if @ast.rsleep.nil?
+
+      @sleep_sec = @ast.rsleep.rsleep_specification.value
     end
   end
 end

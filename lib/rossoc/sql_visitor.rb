@@ -20,12 +20,17 @@ module SQLParser
     def visit_DirectSelect(o)
       [
         o.query_expression,
-        o.order_by
+        o.order_by,
+        o.rsleep
       ].compact.collect { |e| visit(e) }.join(' ')
     end
 
     def visit_OrderBy(o)
       "ORDER BY #{arrayize(o.sort_specification)}"
+    end
+
+    def visit_Rsleep(o)
+      "RSLEEP #{visit(o.rsleep_specification)}"
     end
 
     def visit_Subquery(o)

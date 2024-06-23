@@ -35,12 +35,13 @@ module SQLParser
     end
 
     class DirectSelect < Node
-      def initialize(query_expression, order_by)
+      def initialize(query_expression, order_by, rsleep)
         @query_expression = query_expression
         @order_by = order_by
+        @rsleep = rsleep
       end
 
-      attr_reader :query_expression, :order_by
+      attr_reader :query_expression, :order_by, :rsleep
     end
 
     class OrderBy < Node
@@ -49,6 +50,14 @@ module SQLParser
       end
 
       attr_reader :sort_specification
+    end
+
+    class Rsleep < Node
+      def initialize(rsleep_specification)
+        @rsleep_specification = rsleep_specification
+      end
+
+      attr_reader :rsleep_specification
     end
 
     class Subquery < Node

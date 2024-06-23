@@ -1,6 +1,7 @@
 # rossoc
 
-Convert sql to mruby and mruby/c Common I/O API
+rossoc is an experimental project to generate code from sql.  
+Convert sql to mruby and mruby/c Common I/O API.
 
 # Guide
 
@@ -35,16 +36,18 @@ This mruby code can be output with the following command.
 rossoc query -i 'SELECT din11 FROM board WHERE ((din1 = 0 AND din2 <= 1) OR din3 <> 9)' -o test.rb
 ```
 
-You can also use the sleep function.
+You can also use the sleep function.  
+`RSLEEP` is the original keyword of rossoc.
 
 ```bash
-rossoc query -i 'SELECT din11 FROM board WHERE ((din1 = 0 AND din2 <= 1) OR din3 <> 9)' -o test.rb --sleep=100
+rossoc query -i 'SELECT din11 FROM board WHERE ((din1 = 0 AND din2 <= 1) OR din3 <> 9) RSLEEP 100' -o test.rb
 ```
 
 The code will look like this.
 
 ```ruby
-# SELECT `din11` FROM `board` WHERE ((`din1` = 0 AND `din2` <= 1) OR `din3` <> 9)
+# SELECT `din11` FROM `board` WHERE ((`din1` = 0 AND `din2` <= 1) OR `din3` <> 9) RSLEEP 100
+
 
 GPIO.setmode(11, GPIO::IN)
 GPIO.setmode(1, GPIO::IN)
@@ -70,6 +73,6 @@ while 1 do
 end
 ```
 
-# Ref
+# Reference
 
-https://github.com/cryodex/sql-parser
+The following code is included to extend sql: https://github.com/cryodex/sql-parser
