@@ -1,4 +1,4 @@
-# <%= ast %>
+# <%= ast.to_sql %>
 
 <%
 all_pins.each do |pin| %>
@@ -17,7 +17,7 @@ end
 
   if <%= where %><%
 out_pins.each do |pin| %>
-    uart1.write("#{din<%= pin %>}\r\n")<%
+    uart1.puts("din<%= pin %>=#{din<%= pin %>}")<%
 end
 %>
   end
