@@ -6,20 +6,43 @@ require 'rossoc'
 module Rossoc
   # Ir
   class Ir
-    def initialize(all_pins, out_pins, where, ast, sleep_sec)
-      @all_pins = all_pins
+    def initialize(in_pins, out_pins, where, ast, sleep_sec)
+      @in_pins = in_pins
       @out_pins = out_pins
       @where = where
       @ast = ast
       @sleep_sec = sleep_sec
     end
 
-    attr_reader :all_pins, :out_pins, :where, :sleep_sec
-
     def result
+      din_pins = Set.new
+      ain_pins = Set.new
+      dout_pins = Set.new
+      aout_pins = Set.new
+
+      @in_pins.each do |pin|
+        n = pin.gsub(/din|ain/, '').to_i
+        if pin.start_with?('din')
+          din_pins.add(n)
+        else
+          ain_pins.add(n)
+        end
+      end
+
+      @out_pins.each do |pin|
+        n = pin.gsub(/din|ain/, '').to_i
+        if pin.start_with?('din')
+          dout_pins.add(n)
+        else
+          aout_pins.add(n)
+        end
+      end
+
       {
-        all_pins: @all_pins,
-        out_pins: @out_pins,
+        din_pins: din_pins,
+        ain_pins: ain_pins,
+        dout_pins: dout_pins,
+        aout_pins: aout_pins,
         where: @where,
         ast: @ast,
         sleep_sec: @sleep_sec

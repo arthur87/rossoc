@@ -18,12 +18,36 @@ module Rossoc
     end
 
     desc 'query', 'Query'
-    method_option :input, desc: 'Input', aliases: '-i'
-    method_option :output, desc: 'Output', aliases: '-o'
+    method_option :input, desc: 'Input query', aliases: '-i'
+    method_option :output, desc: 'Write output to <file>', aliases: '-o'
+    method_option :ir, desc: 'Show IR Information', type: :boolean, default: false
     def query
       frontend = Rossoc::Frontend.new(options[:input].to_s)
-      backend = Rossoc::Backend.new(frontend.execute, options[:output].to_s)
-      backend.execute
+      begin
+        ir = frontend.ir
+      rescue Racc::ParseError => e
+        warn e.message
+        exit(1)
+      rescue Rossoc::Frontend::FrontendError => e
+        warn e.message
+        exit(1)
+      rescue StandardError => e
+        warn e.message
+        exit(1)
+      end
+
+      pp ir.result if options[:ir]
+
+      begin
+        backend = Rossoc::Backend.new(ir, options[:output].to_s)
+        backend.execute
+      rescue Rossoc::Backend::BackendError => e
+        warn e.message
+        exit(1)
+      rescue StandardError => e
+        warn e.message
+        exit(1)
+      end
     end
   end
 end
