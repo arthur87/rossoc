@@ -1,7 +1,7 @@
 # rossoc
 
 rossoc is an experimental project to generate code from sql.  
-Convert sql to mruby and mruby/c Common I/O API.
+Convert sql to mruby and mruby/c with Common I/O API.
 
 # Guide
 
@@ -10,23 +10,23 @@ For example, SQL like `SELECT din11 FROM board WHERE ((din1 = 0 AND din2 <= 1) O
 ```ruby
 # SELECT `din11` FROM `board` WHERE ((`din1` = 0 AND `din2` <= 1) OR `din3` <> 9)
 
+GPIO.setmode(11, GPIO::IN)
 GPIO.setmode(1, GPIO::IN)
 GPIO.setmode(2, GPIO::IN)
 GPIO.setmode(3, GPIO::IN)
-GPIO.setmode(11, GPIO::IN)
 
 uart1 = UART.new(1)
 
 while 1 do
-
+  din11 = GPIO.read(11)
   din1 = GPIO.read(1)
   din2 = GPIO.read(2)
   din3 = GPIO.read(3)
-  din11 = GPIO.read(11)
 
   if ((din1 == 0 && din2 <= 1) || din3 != 9)
-    uart1.write("#{din11}\r\n")
+    uart1.puts("din11=#{din11}")
   end
+
 end
 ```
 
@@ -48,7 +48,6 @@ The code will look like this.
 ```ruby
 # SELECT `din11` FROM `board` WHERE ((`din1` = 0 AND `din2` <= 1) OR `din3` <> 9) RSLEEP 100
 
-
 GPIO.setmode(11, GPIO::IN)
 GPIO.setmode(1, GPIO::IN)
 GPIO.setmode(2, GPIO::IN)
@@ -57,16 +56,14 @@ GPIO.setmode(3, GPIO::IN)
 uart1 = UART.new(1)
 
 while 1 do
-
   din11 = GPIO.read(11)
   din1 = GPIO.read(1)
   din2 = GPIO.read(2)
   din3 = GPIO.read(3)
 
   if ((din1 == 0 && din2 <= 1) || din3 != 9)
-    uart1.write("#{din11}\r\n")
+    uart1.puts("din11=#{din11}")
   end
-
 
   sleep(100)
 

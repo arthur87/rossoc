@@ -1,23 +1,41 @@
 # <%= ast.to_sql %>
 
 <%
-all_pins.each do |pin| %>
+din_pins.each do |pin| %>
 GPIO.setmode(<%= pin %>, GPIO::IN)<% 
+end
+%>
+<%
+ain_pins.each do |pin| %>
+k_ain<%= pin%> = ADC.new(<%= pin%>)<% 
 end
 %>
 
 uart1 = UART.new(1)
 
 while 1 do
+
 <%
-all_pins.each do |pin| %>
+din_pins.each do |pin| %>
   din<%= pin %> = GPIO.read(<%= pin %>)<%
 end
 %>
 
+<%
+ain_pins.each do |pin| %>
+  ain<%= pin %> = k_ain<%= pin %>.read_voltage()<%
+end
+%>
+
+
   if <%= where %><%
-out_pins.each do |pin| %>
+dout_pins.each do |pin| %>
     uart1.puts("din<%= pin %>=#{din<%= pin %>}")<%
+end
+%>
+<%
+aout_pins.each do |pin| %>
+    uart1.puts("ain<%= pin %>=#{ain<%= pin %>}")<% 
 end
 %>
   end

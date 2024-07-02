@@ -8,15 +8,18 @@ module Rossoc
   class Frontend
     class FrontendError < StandardError; end
 
-    FIELDS = %w[
+    RESERVED_PINS = %w[
       din0 din1 din2 din3 din4 din5 din6 din7 din8 din9 din10
       din11 din12 din13 din14 din15 din16 din17 din18 din19 din20
+      ain0 ain1 ain2 ain3 ain4 ain5 ain6 ain7 ain8 ain9 ain10
+      ain11 ain12 ain13 ain14 ain15 ain16 ain17 ain18 ain19 ain20
     ].freeze
 
     def initialize(input)
       @input = input
-      @all_pins = Set.new
       @out_pins = Set.new
+      @in_pins = Set.new
+
       @where = nil
       @ast = nil
       @sleep_sec = 0
@@ -27,8 +30,9 @@ module Rossoc
       check_columns
       check_tables
       check_condition
+      check_rsleep
 
-      Rossoc::Ir.new(@all_pins, @out_pins, @where, @ast, @sleep_sec)
+      Rossoc::Ir.new(@in_pins, @out_pins, @where, @ast, @sleep_sec)
     end
 
     private
@@ -44,11 +48,11 @@ module Rossoc
       columns = @ast.query_expression.list.columns
       columns.each do |column|
         name = column.name
-        index = FIELDS.index(name)
+        index = RESERVED_PINS.index(name)
         raise FrontendError, "unknown column value #{name}" if index.nil?
 
-        @all_pins.add(index)
-        @out_pins.add(index)
+        @in_pins.add(name)
+        @out_pins.add(name)
       end
     rescue StandardError => e
       raise e
@@ -120,11 +124,10 @@ module Rossoc
         condition_parser(condition.value.right)
       elsif column_words.include?(condition.class.to_s)
         name = condition.name
-        index = FIELDS.index(name)
+        index = RESERVED_PINS.index(name)
         raise FrontendError, "unknown column value #{name}" if index.nil?
 
-        @all_pins.add(index)
-
+        @in_pins.add(name)
       elsif value_words.include?(condition.class.to_s)
         # none
       else

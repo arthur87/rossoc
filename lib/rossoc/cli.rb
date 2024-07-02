@@ -18,8 +18,9 @@ module Rossoc
     end
 
     desc 'query', 'Query'
-    method_option :input, desc: 'Input', aliases: '-i'
-    method_option :output, desc: 'Output', aliases: '-o'
+    method_option :input, desc: 'Input query', aliases: '-i'
+    method_option :output, desc: 'Write output to <file>', aliases: '-o'
+    method_option :ir, desc: 'Show IR Information', type: :boolean, default: false
     def query
       frontend = Rossoc::Frontend.new(options[:input].to_s)
       begin
@@ -34,6 +35,8 @@ module Rossoc
         warn e.message
         exit(1)
       end
+
+      pp ir.result if options[:ir]
 
       begin
         backend = Rossoc::Backend.new(ir, options[:output].to_s)
