@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rossoc (0.3.2)
+    rossoc (0.4.0)
       activesupport
       erb
       racc
