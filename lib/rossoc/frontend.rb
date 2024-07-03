@@ -19,7 +19,7 @@ module Rossoc
       @input = input
       @out_pins = Set.new
       @in_pins = Set.new
-
+      @table = nil
       @where = nil
       @ast = nil
       @sleep_sec = 0
@@ -32,7 +32,7 @@ module Rossoc
       check_condition
       check_rsleep
 
-      Rossoc::Ir.new(@in_pins, @out_pins, @where, @ast, @sleep_sec)
+      Rossoc::Ir.new(@in_pins, @out_pins, @table, @where, @ast, @sleep_sec).result
     end
 
     private
@@ -41,7 +41,7 @@ module Rossoc
       parser = SQLParser::Parser.new
       @ast = parser.scan_str(sql)
     rescue Racc::ParseError => e
-      raise e
+      raise FrontendError, e
     end
 
     def check_columns
@@ -61,8 +61,7 @@ module Rossoc
     def check_tables
       tables = @ast.query_expression.table_expression.from_clause.tables
       tables.each do |table|
-        name = table.name
-        raise FrontendError, "unknown table value #{name}" if name != 'board'
+        @table = table.name
       end
     rescue StandardError => e
       raise e

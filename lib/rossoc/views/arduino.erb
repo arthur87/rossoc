@@ -1,0 +1,42 @@
+// <%= ast.to_sql %>
+
+void setup() {
+  Serial.begin(9600);
+  <%
+  din_pins.each do |pin| %>
+  pinMode(<%= pin %>, INPUT);<% 
+  end
+  %>
+}
+
+void loop() {
+  <%
+din_pins.each do |pin| %>
+  int din<%= pin %> = digitalRead(<%= pin %>);<%
+end
+  %>
+<%
+ain_pins.each do |pin| %>
+  int ain<%= pin %> = analogRead(<%= pin %>);<%
+end
+%>
+
+  if<%= where %> {
+<%
+dout_pins.each do |pin| %>
+    Serial.print("din<%= pin %>=");
+    Serial.println(din<%= pin %>);<%
+end
+%>
+<%
+aout_pins.each do |pin| %>
+    Serial.print("ain<%= pin %>=");
+    Serial.println(ain<%= pin %>);<%
+end
+%>
+  }
+
+  <% if sleep_sec > 0 %>
+  delay(<%= sleep_sec %>);
+  <% end%>
+}

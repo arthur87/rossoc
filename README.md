@@ -1,14 +1,14 @@
 # rossoc
 
 rossoc is an experimental project to generate code from sql.  
-Convert sql to mruby and mruby/c with Common I/O API.
+Converts sql to mruby, mruby/c, or Arduino source code.
 
 # Guide
 
-For example, SQL like `SELECT din11 FROM board WHERE ((din1 = 0 AND din2 <= 1) OR din3 <> 9)` is converted to source code like this:
+For example, SQL like `SELECT din11 FROM mruby WHERE ((din1 = 0 AND din2 <= 1) OR din3 <> 9)` is converted to source code like this:
 
 ```ruby
-# SELECT `din11` FROM `board` WHERE ((`din1` = 0 AND `din2` <= 1) OR `din3` <> 9)
+# SELECT `din11` FROM `mruby` WHERE ((`din1` = 0 AND `din2` <= 1) OR `din3` <> 9)
 
 GPIO.setmode(11, GPIO::IN)
 GPIO.setmode(1, GPIO::IN)
@@ -33,20 +33,20 @@ end
 This mruby code can be output with the following command.
 
 ```bash
-rossoc query -i 'SELECT din11 FROM board WHERE ((din1 = 0 AND din2 <= 1) OR din3 <> 9)' -o test.rb
+rossoc query -i 'SELECT din11 FROM mruby WHERE ((din1 = 0 AND din2 <= 1) OR din3 <> 9)' -o test.rb
 ```
 
 You can also use the sleep function.  
 `RSLEEP` is the original keyword of rossoc.
 
 ```bash
-rossoc query -i 'SELECT din11 FROM board WHERE ((din1 = 0 AND din2 <= 1) OR din3 <> 9) RSLEEP 100' -o test.rb
+rossoc query -i 'SELECT din11 FROM mruby WHERE ((din1 = 0 AND din2 <= 1) OR din3 <> 9) RSLEEP 100' -o test.rb
 ```
 
 The code will look like this.
 
 ```ruby
-# SELECT `din11` FROM `board` WHERE ((`din1` = 0 AND `din2` <= 1) OR `din3` <> 9) RSLEEP 100
+# SELECT `din11` FROM `mruby` WHERE ((`din1` = 0 AND `din2` <= 1) OR `din3` <> 9) RSLEEP 100
 
 GPIO.setmode(11, GPIO::IN)
 GPIO.setmode(1, GPIO::IN)
@@ -70,6 +70,11 @@ while 1 do
 end
 ```
 
+rossoc is only `SELECT` statements are supported.  
+The values ​​that can be specified for the column name are `din1` to `din20` and `ain1` to `ain20`. din corresponds to digital pin, and ain corresponds to analog pin.  
+Possible values ​​for table name are `mruby` or `arduino`.
+
 # Reference
 
-The following code is included to extend sql: https://github.com/cryodex/sql-parser
+The following code is included to extend sql: https://github.com/cryodex/sql-parser  
+mruby, mruby/c Common I/O API Guidelines and Community-developed Libraries: https://github.com/mruby/microcontroller-peripheral-interface-guide

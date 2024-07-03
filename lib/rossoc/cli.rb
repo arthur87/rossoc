@@ -36,7 +36,7 @@ module Rossoc
         exit(1)
       end
 
-      pp ir.result if options[:ir]
+      pp ir if options[:ir]
 
       begin
         backend = Rossoc::Backend.new(ir, options[:output].to_s)
