@@ -72,7 +72,8 @@ end
 
 rossoc is only `SELECT` statements are supported.  
 The values ​​that can be specified for the column name are `din1` to `din20` and `ain1` to `ain20`. din corresponds to digital pin, and ain corresponds to analog pin.  
-Possible values ​​for table name are `mruby` or `arduino`.
+Possible values ​​for table name are `mruby`, `arduino` and `dev`.  
+If you specify `dev`, simple ruby ​​code will be output and you can run it immediately without a board.
 
 # Reference
 
