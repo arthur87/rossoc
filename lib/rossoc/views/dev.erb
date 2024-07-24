@@ -1,0 +1,32 @@
+# <%= ast.to_sql %>
+
+while 1 do
+<%
+din_pins.each do |pin| %>
+  din<%= pin %> = rand(0..1)<% 
+end
+%>
+
+<%
+ain_pins.each do |pin| %>
+  ain<%= pin %> = rand(0..1023)<%
+end
+%>
+
+  if <%= where %>
+<%
+dout_pins.each do |pin| %>
+    puts("din<%= pin %>=#{din<%= pin %>}")<%
+end
+%>
+<%
+aout_pins.each do |pin| %>
+    puts("ain<%= pin %>=#{ain<%= pin %>}")<% 
+end
+%>
+  end
+
+  <% if sleep_sec > 0 %>
+  sleep(<%= sleep_sec %>)
+  <% end%>
+end

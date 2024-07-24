@@ -8,7 +8,7 @@ module Rossoc
   class Backend
     class BackendError < StandardError; end
 
-    RESERVED_TABLES = %w[mruby arduino].freeze
+    RESERVED_TABLES = %w[mruby arduino dev].freeze
 
     def initialize(ir, output)
       @ir = ir
