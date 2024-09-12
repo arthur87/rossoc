@@ -83,10 +83,9 @@ mruby, mruby/c Common I/O API Guidelines and Community-developed Libraries: http
 
 # Architecture
 
-rossoc is composed of a front end and a back end.  
-An original IR(Intermediate Representation) is used to connect the front end and the back end.
-
-The front-end performs lexical, syntactic and semantic analysis. 
+rossoc is composed of a front-end and a back-end.  
+An original IR(Intermediate Representation) is used to connect the front-end and the back-end.  
+The front-end performs lexical, syntactic and semantic analysis.  
 The back-end generates code for the target.
 
 ```mermaid
