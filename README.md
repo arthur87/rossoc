@@ -79,3 +79,24 @@ If you specify `dev`, simple ruby ​​code will be output and you can run it i
 
 The following code is included to extend sql: https://github.com/cryodex/sql-parser  
 mruby, mruby/c Common I/O API Guidelines and Community-developed Libraries: https://github.com/mruby/microcontroller-peripheral-interface-guide
+
+
+# Architecture
+
+rossoc is composed of a front-end and a back-end.  
+An original IR(Intermediate Representation) is used to connect the front-end and the back-end.  
+The front-end performs lexical, syntactic and semantic analysis.  
+The back-end generates code for the target.
+
+```mermaid
+flowchart TB
+    input --> FrontEnd
+    subgraph FrontEnd
+    parser --> columns --> tables --> condition --> rsleep
+    end
+    FrontEnd --> IR --> BackEnd
+    subgraph BackEnd
+    execute
+    end
+    execute --> output
+```
