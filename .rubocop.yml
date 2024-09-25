@@ -8,3 +8,8 @@ AllCops:
     - "lib/rossoc/parser.rex.rb"
     - "lib/rossoc/sql_visitor.rb"
     - "lib/rossoc/statement.rb"
+    - "rossoc.gemspec"
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
