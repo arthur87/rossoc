@@ -16,8 +16,8 @@ jobs:
           ruby-version: '3.1.2'
           bundler-cache: true
 
-      - name: Show ruby version
-        run: ruby -v
+      - name: Run install
+        run: bundle install
 
       - name: Run lint
         run: bundle exec rubocop
@@ -35,6 +35,9 @@ jobs:
         with:
           ruby-version: '3.1.2'
           bundler-cache: true
+
+      - name: Run install
+        run: bundle install
 
       - name: Run tests
         run: bundle exec rspec
