@@ -1,0 +1,23 @@
+name: Run Rubocop and RSpec Actions
+on: pull_request
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby Env
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1.3'
+          bundler-cache: true
+
+      - name: Run install
+        run: bundle install
+
+      - name: Run tests
+        run: bundle exec rspec

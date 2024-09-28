@@ -54,7 +54,7 @@ module Rossoc
         @in_pins.add(name)
         @out_pins.add(name)
       end
-    rescue StandardError => e
+    rescue e
       raise e
     end
 
@@ -63,7 +63,7 @@ module Rossoc
       tables.each do |table|
         @table = table.name
       end
-    rescue StandardError => e
+    rescue e
       raise e
     end
 
@@ -74,14 +74,16 @@ module Rossoc
                     else
                       @ast.query_expression.table_expression.where_clause.search_condition
                     end
-      rescue StandardError => e
+      rescue e
         raise e
       end
 
-      if !condition.nil?
+      if condition.nil?
+        @where = 1
+      else
         condition_parser(condition)
 
-        tokens = condition.to_sql.split(' ')
+        tokens = condition.to_sql.split
         tokens.each_with_index do |token, index|
           case token
           when '='
@@ -97,8 +99,6 @@ module Rossoc
         end
 
         @where = tokens.join(' ')
-      else
-        @where = 1
       end
     end
 
