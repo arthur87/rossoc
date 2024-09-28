@@ -25,12 +25,6 @@ module Rossoc
       frontend = Rossoc::Frontend.new(options[:input].to_s)
       begin
         ir = frontend.ir
-      rescue Racc::ParseError => e
-        warn e.message
-        exit(1)
-      rescue Rossoc::Frontend::FrontendError => e
-        warn e.message
-        exit(1)
       rescue StandardError => e
         warn e.message
         exit(1)
@@ -42,9 +36,6 @@ module Rossoc
         backend = Rossoc::Backend.new(ir, options[:output].to_s)
         backend.generate
         backend.write
-      rescue Rossoc::Backend::BackendError => e
-        warn e.message
-        exit(1)
       rescue StandardError => e
         warn e.message
         exit(1)

@@ -1,6 +1,7 @@
 inherit_from: .rubocop_todo.yml
 
 AllCops:
+  NewCops: enable
   Exclude:
     - "lib/rossoc/parser.racc"
     - "lib/rossoc/parser.racc.rb"

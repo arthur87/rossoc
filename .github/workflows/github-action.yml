@@ -19,7 +19,7 @@ jobs:
       - name: Run install
         run: bundle install
 
-      - name: Run lint
+      - name: Run rubocop
         run: bundle exec rubocop
 
   Job-RSpec:
