@@ -146,7 +146,8 @@ flowchart TB
     end
     FrontEnd --> IR --> BackEnd
     subgraph BackEnd
-    execute
+    generate
+    write
     end
-    execute --> output
+    write --> output
 ```
