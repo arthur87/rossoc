@@ -40,7 +40,8 @@ module Rossoc
 
       begin
         backend = Rossoc::Backend.new(ir, options[:output].to_s)
-        backend.execute
+        backend.generate
+        backend.write
       rescue Rossoc::Backend::BackendError => e
         warn e.message
         exit(1)

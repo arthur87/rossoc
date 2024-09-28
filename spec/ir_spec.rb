@@ -9,6 +9,4 @@ RSpec.describe Rossoc::Frontend do
     client = Rossoc::Frontend.new(input)
     expect(client.send(:parser, input)).not_to be_nil
   end
-
-
 end
