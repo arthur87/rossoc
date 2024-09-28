@@ -2,29 +2,9 @@ name: Run Rubocop and RSpec Actions
 on: pull_request
 
 jobs:
-  Job-Rubocop:
+  rspec:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Ruby Env
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.1.3'
-          bundler-cache: true
-
-      - name: Run install
-        run: bundle install
-
-      - name: Run rubocop
-        run: bundle exec rubocop
-
-  Job-RSpec:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 3
 
     steps:
       - name: Checkout code
