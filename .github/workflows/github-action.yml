@@ -1,5 +1,7 @@
 name: Run Rubocop and RSpec Actions
-on: pull_request
+on:
+  push:
+  pull_request:
 
 jobs:
   rspec:
