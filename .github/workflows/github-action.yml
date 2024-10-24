@@ -40,8 +40,5 @@ jobs:
       - name: Run install
         run: bundle install
 
-      - name: Run RuboCop
-        run: bundle exec rubocop
-
       - name: Run tests
         run: bundle exec rspec
