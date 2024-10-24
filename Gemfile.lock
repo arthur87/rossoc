@@ -89,7 +89,7 @@ DEPENDENCIES
   rexical
   rossoc!
   rspec (~> 3.0)
-  rubocop
+  rubocop (~> 1.12)
 
 BUNDLED WITH
    2.3.26
