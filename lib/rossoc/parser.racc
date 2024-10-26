@@ -19,7 +19,7 @@ rule
     | RSLEEP rsleep_specification { result = SQLParser::Statement::Rsleep.new(val[1]) }
 
   rsleep_specification
-    : unsigned_integer { result = SQLParser::Statement::Integer.new(val[0]) }
+    : unsigned_literal
 
   order_by_clause
     : # no action

@@ -3,6 +3,8 @@
 <!-- no suffix: en -->
 <!---------------------------->
 
+<!-- $ mmg README.base.md -->
+
 <!-- [ja] -->
 # rossoc
 rossoc はSQLからコードを生成する実験的なプロジェクトです。  
@@ -57,10 +59,12 @@ rossoc query -i 'SELECT din11 FROM mruby WHERE ((din1 = 0 AND din2 <= 1) OR din3
 ```
 
 <!-- [ja] -->
-sleep 関数を使用できます。`RSLEEP` は rossoc の独自キーワードです。
+`RSLEEP` は rossoc の独自キーワードです。 
+RSLEEPの単位は秒で、指定した秒数分、処理を停止します。
 
 <!-- [en] -->
-You can also use the sleep function. `RSLEEP` is the original keyword of rossoc.
+`RSLEEP` is the original keyword of rossoc. 
+RSLEEP is measured in seconds, and processing will be suspended for the specified number of seconds.
 
 <!-- [common] -->
 ```bash
@@ -97,6 +101,39 @@ while 1 do
   sleep(100)
 
 end
+```
+
+```c
+// SELECT `din11` FROM `arduino` WHERE ((`din1` = 0 AND `din2` <= 1) OR `din3` <> 9) RSLEEP 100
+
+void setup() {
+  Serial.begin(9600);
+  
+  pinMode(11, INPUT);
+  pinMode(1, INPUT);
+  pinMode(2, INPUT);
+  pinMode(3, INPUT);
+}
+
+void loop() {
+  
+  int din11 = digitalRead(11);
+  int din1 = digitalRead(1);
+  int din2 = digitalRead(2);
+  int din3 = digitalRead(3);
+
+
+  if((din1 == 0 && din2 <= 1) || din3 != 9) {
+
+    Serial.print("din11=");
+    Serial.println(din11);
+
+  }
+
+  
+  delay(100000);
+  
+}
 ```
 
 <!-- [ja] -->

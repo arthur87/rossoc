@@ -1,4 +1,5 @@
 
+
 # rossoc
 rossoc is an experimental project to generate code from sql.  
 Converts sql to mruby, mruby/c, or Arduino source code.
@@ -35,7 +36,8 @@ This mruby code can be output with the following command.
 rossoc query -i 'SELECT din11 FROM mruby WHERE ((din1 = 0 AND din2 <= 1) OR din3 <> 9)' -o test.rb
 ```
 
-You can also use the sleep function. `RSLEEP` is the original keyword of rossoc.
+`RSLEEP` is the original keyword of rossoc. 
+RSLEEP is measured in seconds, and processing will be suspended for the specified number of seconds.
 
 ```bash
 rossoc query -i 'SELECT din11 FROM mruby WHERE ((din1 = 0 AND din2 <= 1) OR din3 <> 9) RSLEEP 100' -o test.rb
@@ -66,6 +68,39 @@ while 1 do
   sleep(100)
 
 end
+```
+
+```c
+// SELECT `din11` FROM `arduino` WHERE ((`din1` = 0 AND `din2` <= 1) OR `din3` <> 9) RSLEEP 100
+
+void setup() {
+  Serial.begin(9600);
+  
+  pinMode(11, INPUT);
+  pinMode(1, INPUT);
+  pinMode(2, INPUT);
+  pinMode(3, INPUT);
+}
+
+void loop() {
+  
+  int din11 = digitalRead(11);
+  int din1 = digitalRead(1);
+  int din2 = digitalRead(2);
+  int din3 = digitalRead(3);
+
+
+  if((din1 == 0 && din2 <= 1) || din3 != 9) {
+
+    Serial.print("din11=");
+    Serial.println(din11);
+
+  }
+
+  
+  delay(100000);
+  
+}
 ```
 
 rossoc is only `SELECT` statements are supported.  
