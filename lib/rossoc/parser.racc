@@ -16,10 +16,7 @@ rule
 # module contents
   rsleep_clause
     : # no action
-    | RSLEEP rsleep_specification { result = SQLParser::Statement::Rsleep.new(val[1]) }
-
-  rsleep_specification
-    : unsigned_literal
+    | RSLEEP unsigned_literal { result = SQLParser::Statement::Rsleep.new(val[1]) }
 
   order_by_clause
     : # no action

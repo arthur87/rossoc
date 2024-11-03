@@ -36,7 +36,7 @@ end
 %>
   }
 
-  <% if sleep_sec > 0 %>
-  delay(<%= (sleep_sec * 1000).to_i %>);
+  <% if sleep.positive? %>
+  delay(<%= sleep.millisecond %>);
   <% end%>
 }

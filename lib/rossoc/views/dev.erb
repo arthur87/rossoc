@@ -26,7 +26,7 @@ end
 %>
   end
 
-  <% if sleep_sec > 0 %>
-  sleep(<%= sleep_sec %>)
+  <% if sleep.positive?  %>
+  sleep(<%= sleep.second() %>)
   <% end%>
 end

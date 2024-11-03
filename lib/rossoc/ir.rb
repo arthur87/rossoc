@@ -12,7 +12,7 @@ module Rossoc
       @table = table
       @where = where
       @ast = ast
-      @sleep_sec = sleep_sec
+      @sleep = RSleep.new(sleep_sec)
     end
 
     def result
@@ -46,8 +46,25 @@ module Rossoc
         table: @table,
         where: @where,
         ast: @ast,
-        sleep_sec: @sleep_sec
+        sleep: @sleep
       }
+    end
+
+    # RSLEEP
+    class RSleep
+      def initialize(second)
+        @second = second
+      end
+
+      def positive?
+        @second.positive?
+      end
+
+      attr_reader :second
+
+      def millisecond
+        (@second * 1000).to_i
+      end
     end
   end
 end

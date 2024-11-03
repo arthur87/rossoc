@@ -24,4 +24,18 @@ RSpec.describe Rossoc::Frontend do
     client = Rossoc::Frontend.new(rsleep_input3)
     expect(client.send(:parser, rsleep_input3)).not_to be_nil
   end
+
+  it 'RSLEEP positive functions' do
+    rSleep = Rossoc::Ir::RSleep.new(100)
+    expect(rSleep.positive?).to eq true
+    expect(rSleep.second()).to eq 100
+    expect(rSleep.millisecond()).to eq 100 * 1000
+  end
+
+  it 'RSLEEP zero functions' do
+    rSleep = Rossoc::Ir::RSleep.new(0)
+    expect(rSleep.positive?).to eq false
+    expect(rSleep.second()).to eq 0
+    expect(rSleep.millisecond()).to eq 0
+  end
 end
