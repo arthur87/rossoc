@@ -21,6 +21,7 @@ module Rossoc
     method_option :input, desc: 'Input query', aliases: '-i'
     method_option :output, desc: 'Write output to <file>', aliases: '-o'
     method_option :ir, desc: 'Show IR Information', type: :boolean, default: false
+    method_option :yes, desc: 'Overwrite output file', type: :boolean, default: false, aliases: '-y'
     def query
       frontend = Rossoc::Frontend.new(options[:input].to_s)
       begin
@@ -33,7 +34,7 @@ module Rossoc
       pp ir if options[:ir]
 
       begin
-        backend = Rossoc::Backend.new(ir, options[:output].to_s)
+        backend = Rossoc::Backend.new(ir, options[:output].to_s, options[:yes])
         backend.generate
         backend.write
       rescue StandardError => e
