@@ -21,7 +21,8 @@ module SQLParser
       [
         o.query_expression,
         o.order_by,
-        o.rsleep
+        o.rsleep,
+        o.rspeed
       ].compact.collect { |e| visit(e) }.join(' ')
     end
 
@@ -31,6 +32,10 @@ module SQLParser
 
     def visit_Rsleep(o)
       "RSLEEP #{visit(o.rsleep_specification)}"
+    end
+
+    def visit_Rspeed(o)
+      "RSPEED #{visit(o.rspeed_specification)}"
     end
 
     def visit_Subquery(o)

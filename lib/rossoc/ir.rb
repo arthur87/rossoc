@@ -6,15 +6,20 @@ require 'rossoc'
 module Rossoc
   # Ir
   class Ir
-    def initialize(in_pins, out_pins, table, where, ast, sleep_sec)
+    # rubocop:disable Metrics/ParameterLists
+    def initialize(in_pins, out_pins, table, where, ast,
+                   sleep_sec, speed)
       @in_pins = in_pins
       @out_pins = out_pins
       @table = table
       @where = where
       @ast = ast
       @sleep = Rsleep.new(sleep_sec)
+      @speed = speed
     end
+    # rubocop:enable Metrics/ParameterLists
 
+    # rubocop:disable Metrics/MethodLength
     def result
       din_pins = Set.new
       ain_pins = Set.new
@@ -46,9 +51,11 @@ module Rossoc
         table: @table,
         where: @where,
         ast: @ast,
-        sleep: @sleep
+        sleep: @sleep,
+        speed: @speed
       }
     end
+    # rubocop:enable Metrics/MethodLength
 
     # RSLEEP
     class Rsleep

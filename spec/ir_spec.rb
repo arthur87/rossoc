@@ -26,16 +26,16 @@ RSpec.describe Rossoc::Frontend do
   end
 
   it 'RSLEEP positive functions' do
-    rSleep = Rossoc::Ir::Rsleep.new(100)
-    expect(rSleep.positive?).to eq true
-    expect(rSleep.second()).to eq 100
-    expect(rSleep.millisecond()).to eq 100 * 1000
+    r_sleep = Rossoc::Ir::Rsleep.new(100)
+    expect(r_sleep.positive?).to eq true
+    expect(r_sleep.second).to eq 100
+    expect(r_sleep.millisecond).to eq 100 * 1000
   end
 
   it 'RSLEEP zero functions' do
-    rSleep = Rossoc::Ir::Rsleep.new(0)
-    expect(rSleep.positive?).to eq false
-    expect(rSleep.second()).to eq 0
-    expect(rSleep.millisecond()).to eq 0
+    r_sleep = Rossoc::Ir::Rsleep.new(0)
+    expect(r_sleep.positive?).to eq false
+    expect(r_sleep.second).to eq 0
+    expect(r_sleep.millisecond).to eq 0
   end
 end

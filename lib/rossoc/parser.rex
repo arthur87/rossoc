@@ -75,6 +75,7 @@ rule
             CURRENT_USER  { [:CURRENT_USER, text] }
             VALUES        { [:VALUES, text] }
             RSLEEP         { [:RSLEEP, text] }
+            RSPEED         { [:RSPEED, text] }
 
 # tokens
             E             { [:E, text] }

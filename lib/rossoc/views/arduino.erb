@@ -1,7 +1,7 @@
 // <%= ast.to_sql %>
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(<%= speed %>);
   <%
   din_pins.each do |pin| %>
   pinMode(<%= pin %>, INPUT);<% 

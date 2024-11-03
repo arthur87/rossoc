@@ -11,12 +11,16 @@ rule
     | insert_specification
 
   direct_select_statement_multiple_rows
-    : query_expression order_by_clause rsleep_clause { result = SQLParser::Statement::DirectSelect.new(val[0], val[1], val[2]) }
+    : query_expression order_by_clause rsleep_clause rspeed_clause { result = SQLParser::Statement::DirectSelect.new(val[0], val[1], val[2], val[3]) }
 
 # module contents
   rsleep_clause
     : # no action
     | RSLEEP unsigned_literal { result = SQLParser::Statement::Rsleep.new(val[1]) }
+
+  rspeed_clause
+    : # no action
+    | RSPEED unsigned_literal { result = SQLParser::Statement::Rspeed.new(val[1]) }
 
   order_by_clause
     : # no action
