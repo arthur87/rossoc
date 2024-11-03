@@ -12,7 +12,7 @@ module Rossoc
       @table = table
       @where = where
       @ast = ast
-      @sleep = RSleep.new(sleep_sec)
+      @sleep = Rsleep.new(sleep_sec)
     end
 
     def result
@@ -51,7 +51,7 @@ module Rossoc
     end
 
     # RSLEEP
-    class RSleep
+    class Rsleep
       def initialize(second)
         @second = second
       end
