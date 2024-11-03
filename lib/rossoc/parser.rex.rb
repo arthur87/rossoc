@@ -192,6 +192,9 @@ class SQLParser::Parser < Racc::Parser
       when (text = @ss.scan(/RSLEEP/i))
          action { [:RSLEEP, text] }
 
+      when (text = @ss.scan(/RSPEED/i))
+         action { [:RSPEED, text] }
+
       when (text = @ss.scan(/E/i))
          action { [:E, text] }
 

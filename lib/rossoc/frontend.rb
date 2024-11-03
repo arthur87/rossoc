@@ -5,6 +5,7 @@ require 'rossoc'
 # Rossoc
 module Rossoc
   # Frontend
+  # rubocop:disable Metrics/ClassLength
   class Frontend
     class FrontendError < StandardError; end
 
@@ -23,6 +24,7 @@ module Rossoc
       @where = nil
       @ast = nil
       @sleep_sec = 0
+      @speed = 9600
     end
 
     def ir
@@ -31,8 +33,10 @@ module Rossoc
       check_tables
       check_condition
       check_rsleep
+      check_rspeed
 
-      Rossoc::Ir.new(@in_pins, @out_pins, @table, @where, @ast, @sleep_sec).result
+      Rossoc::Ir.new(@in_pins, @out_pins, @table, @where, @ast,
+                     @sleep_sec, @speed).result
     end
 
     private
@@ -139,5 +143,12 @@ module Rossoc
 
       @sleep_sec = @ast.rsleep.rsleep_specification.value
     end
+
+    def check_rspeed
+      return if @ast.rspeed.nil?
+
+      @speed = @ast.rspeed.rspeed_specification.value
+    end
   end
+  # rubocop:enable Metrics/ClassLength
 end
