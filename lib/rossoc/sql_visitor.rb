@@ -1,4 +1,9 @@
 # frozen_string_literal: true
+#
+# Original source code
+# sql-parser
+# https://github.com/cryodex/sql-parser
+#
 
 module SQLParser
   class SQLVisitor

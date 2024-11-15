@@ -1,4 +1,9 @@
 # frozen_string_literal: true
+#
+# Original source code
+# sql-parser
+# https://github.com/cryodex/sql-parser
+#
 
 module SQLParser
   module Statement
@@ -35,7 +40,7 @@ module SQLParser
     end
 
     class DirectSelect < Node
-      def initialize(query_expression, order_by, rsleep, rspeed)
+      def initialize(query_expression, order_by, rsleep = nil, rspeed = nil)
         @query_expression = query_expression
         @order_by = order_by
         @rsleep = rsleep

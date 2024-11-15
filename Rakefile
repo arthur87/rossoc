@@ -3,18 +3,12 @@
 require 'bundler/gem_tasks'
 task default: %i[]
 
-GENERATED_PARSER = 'lib/rossoc/parser.racc.rb'
-GENERATED_LEXER = 'lib/rossoc/parser.rex.rb'
+PARSER = 'lib/rossoc/parser.racc'
+LEXER = 'lib/rossoc/parser.rex'
 
-file GENERATED_LEXER => 'lib/rossoc/parser.rex' do |t|
-  sh "rex -o #{t.name} #{t.prerequisites.first}"
+task :parser do
+  system "rm #{PARSER}.rb #{LEXER}.rb"
+  system "racc -o #{PARSER}.rb #{PARSER}"
+  system "rex -o #{LEXER}.rb #{LEXER}"
+  system 'rspec'
 end
-
-file GENERATED_PARSER => 'lib/rossoc/parser.racc' do |t|
-  sh "racc -o #{t.name} #{t.prerequisites.first}"
-end
-
-task parser: [GENERATED_LEXER, GENERATED_PARSER]
-
-# Make sure the parser's up-to-date when we test.
-# Rake::Task['test'].prerequisites << :parser

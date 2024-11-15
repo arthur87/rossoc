@@ -5,6 +5,12 @@
 #++
 
 require 'racc/parser'
+#
+# Original source code
+# sql-parser
+# https://github.com/cryodex/sql-parser
+#
+
 class SQLParser::Parser < Racc::Parser
   require 'strscan'
 
