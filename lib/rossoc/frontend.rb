@@ -58,8 +58,8 @@ module Rossoc
         @in_pins.add(name)
         @out_pins.add(name)
       end
-    rescue
-      raise FrontendError, "unsupported column."
+    rescue StandardError
+      raise FrontendError, 'unsupported column.'
     end
 
     def check_tables
