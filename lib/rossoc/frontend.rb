@@ -59,7 +59,7 @@ module Rossoc
         @out_pins.add(name)
       end
     rescue
-      raise FrontendError, "wildcard column is not supported."
+      raise FrontendError, "unsupported column."
     end
 
     def check_tables
