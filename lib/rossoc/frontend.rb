@@ -59,7 +59,7 @@ module Rossoc
         @out_pins.add(name)
       end
     rescue StandardError
-      raise FrontendError, 'unsupported column.'
+      raise FrontendError, 'unsupported column(s).'
     end
 
     def check_tables
@@ -67,8 +67,8 @@ module Rossoc
       tables.each do |table|
         @table = table.name
       end
-    rescue e
-      raise e
+    rescue StandardError
+      raise FrontendError, 'unsupported table(s).'
     end
 
     def check_condition
@@ -78,8 +78,8 @@ module Rossoc
                     else
                       @ast.query_expression.table_expression.where_clause.search_condition
                     end
-      rescue e
-        raise e
+      rescue StandardError
+        raise FrontendError, 'unsupported condition(s).'
       end
 
       if condition.nil?
