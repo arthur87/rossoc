@@ -21,7 +21,7 @@ ain_pins.each do |pin| %>
 end
 %>
 
-  if<%= where %> {
+  if(<%= where %>) {
 <%
 dout_pins.each do |pin| %>
     Serial.print("din<%= pin %>=");
@@ -35,7 +35,6 @@ aout_pins.each do |pin| %>
 end
 %>
   }
-
   <% if sleep.positive? %>
   delay(<%= sleep.millisecond %>);
   <% end%>

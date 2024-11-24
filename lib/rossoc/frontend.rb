@@ -53,13 +53,13 @@ module Rossoc
       columns.each do |column|
         name = column.name
         index = RESERVED_PINS.index(name)
-        raise FrontendError, "unknown column value #{name}" if index.nil?
+        raise FrontendError, "unknown column value #{name}." if index.nil?
 
         @in_pins.add(name)
         @out_pins.add(name)
       end
-    rescue e
-      raise e
+    rescue StandardError
+      raise FrontendError, 'unsupported column.'
     end
 
     def check_tables
@@ -128,13 +128,13 @@ module Rossoc
       elsif column_words.include?(condition.class.to_s)
         name = condition.name
         index = RESERVED_PINS.index(name)
-        raise FrontendError, "unknown column value #{name}" if index.nil?
+        raise FrontendError, "unknown column value #{name}." if index.nil?
 
         @in_pins.add(name)
       elsif value_words.include?(condition.class.to_s)
         # none
       else
-        raise FrontendError, "unknown token value #{condition}"
+        raise FrontendError, "unknown token value #{condition}."
       end
     end
 

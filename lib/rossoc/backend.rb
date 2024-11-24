@@ -19,7 +19,7 @@ module Rossoc
 
     def generate
       table = @ir[:table]
-      raise BackendError, "unknown table value #{table}" if RESERVED_TABLES.index(table).nil?
+      raise BackendError, "unknown table value #{table}." if RESERVED_TABLES.index(table).nil?
 
       template = ERB.new(
         File.read("#{__dir__}#{File::SEPARATOR}views#{File::SEPARATOR}#{table}.erb"),
@@ -30,15 +30,18 @@ module Rossoc
     end
 
     def write
-      raise BackendError, 'No content' if @content.nil?
+      raise BackendError, 'No content.' if @content.nil?
 
-      raise BackendError, 'No output file' if @output.blank?
+      if @output.blank?
+        # ファイルが指定されていないとき標準出力
+        puts @content
+      else
+        raise BackendError, "File exists #{@output}." if File.exist?(@output) && !@overwrite_enable
 
-      raise BackendError, "File exists #{@output}" if File.exist?(@output) && !@overwrite_enable
-
-      file = File.open(@output, 'w')
-      file.write(@content)
-      file.close
+        file = File.open(@output, 'w')
+        file.write(@content)
+        file.close
+      end
     end
   end
 end
