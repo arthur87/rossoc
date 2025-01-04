@@ -58,8 +58,12 @@ module Rossoc
         @in_pins.add(name)
         @out_pins.add(name)
       end
+    rescue FrontendError => e
+      # サポート外のカラムを指定したとき
+      raise FrontendError, e
     rescue StandardError
-      raise FrontendError, 'unsupported column(s).'
+      # カラムにワイルドカードを指定したとき
+      raise FrontendError, 'unsupported wildcard column.'
     end
 
     def check_tables
