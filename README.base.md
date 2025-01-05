@@ -7,11 +7,13 @@
 
 <!-- [ja] -->
 # rossoc
+[![Gem Version](https://badge.fury.io/rb/rossoc.svg)](https://badge.fury.io/rb/rossoc)  
 rossoc はSQLからコードを生成する実験的なプロジェクトです。  
 SQLを mruby, mruby/c, と Arduino に変換します。 
 
 <!-- [en] -->
 # rossoc
+[![Gem Version](https://badge.fury.io/rb/rossoc.svg)](https://badge.fury.io/rb/rossoc)  
 rossoc is an experimental project to generate code from sql.  
 Converts sql to mruby, mruby/c, or Arduino source code.
 

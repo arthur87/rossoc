@@ -7,9 +7,10 @@ Gem::Specification.new do |spec|
   spec.version = Rossoc::VERSION
   spec.authors = ['arthur87']
   spec.email = ['arthur87@users.noreply.github.com']
+  spec.licenses = ['MIT']
 
-  spec.summary = 'Convert sql to mruby mruby/c Common I/O API'
-  spec.description = 'Convert sql to mruby mruby/c Common I/O API'
+  spec.summary = 'Converts sql to mruby, mruby/c, or Arduino source code.'
+  spec.description = 'Converts sql to mruby, mruby/c, or Arduino source code.'
   spec.homepage = 'https://github.com/arthur87/rossoc'
   spec.required_ruby_version = '>= 3.0.0'
 

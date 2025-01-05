@@ -45,6 +45,8 @@ module Rossoc
       parser = SQLParser::Parser.new
       @ast = parser.scan_str(sql)
     rescue Racc::ParseError => e
+      warn sql
+      warn "#{' ' * parser.ss.pos}^"
       raise FrontendError, e
     end
 
@@ -58,8 +60,12 @@ module Rossoc
         @in_pins.add(name)
         @out_pins.add(name)
       end
+    rescue FrontendError => e
+      # サポート外のカラムを指定したとき
+      raise FrontendError, e
     rescue StandardError
-      raise FrontendError, 'unsupported column.'
+      # カラムにワイルドカードを指定したとき
+      raise FrontendError, 'unsupported wildcard column.'
     end
 
     def check_tables
@@ -67,8 +73,8 @@ module Rossoc
       tables.each do |table|
         @table = table.name
       end
-    rescue e
-      raise e
+    rescue StandardError
+      raise FrontendError, 'unsupported table(s).'
     end
 
     def check_condition
@@ -78,8 +84,8 @@ module Rossoc
                     else
                       @ast.query_expression.table_expression.where_clause.search_condition
                     end
-      rescue e
-        raise e
+      rescue StandardError
+        raise FrontendError, 'unsupported condition(s).'
       end
 
       if condition.nil?
