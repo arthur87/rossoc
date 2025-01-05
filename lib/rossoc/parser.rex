@@ -9,6 +9,9 @@ class SQLParser::Parser
 option
   ignorecase
 
+inner
+  attr_reader   :ss
+
 macro
   DIGIT   [0-9]
   UINT    {DIGIT}+

@@ -298,4 +298,5 @@ class SQLParser::Parser < Racc::Parser
     token
   end  # def _next_token
 
+  attr_reader   :ss
 end # class

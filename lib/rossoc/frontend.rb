@@ -45,6 +45,8 @@ module Rossoc
       parser = SQLParser::Parser.new
       @ast = parser.scan_str(sql)
     rescue Racc::ParseError => e
+      warn sql
+      warn "#{' ' * parser.ss.pos}^"
       raise FrontendError, e
     end
 
