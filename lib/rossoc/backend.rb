@@ -38,9 +38,7 @@ module Rossoc
       else
         raise BackendError, "File exists #{@output}." if File.exist?(@output) && !@overwrite_enable
 
-        file = File.open(@output, 'w')
-        file.write(@content)
-        file.close
+        File.write(@output, @content)
       end
     end
   end
