@@ -43,7 +43,7 @@ module Rossoc
       end
     end
 
-    def help
+    def self.help(shell, subcommand)
       super
       puts 'Online documentation: https://github.com/arthur87/rossoc'
     end
